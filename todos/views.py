@@ -4,9 +4,9 @@ from todos.forms import TodoListForm
 
 
 def todo_list_list(request):
-    todo_list_list = TodoList.objects.all()
+    todos = TodoList.objects.all()
     context = {
-       "todo_list_list": todo_list_list
+       "todo_list_list": todos
     }
     return render(request, "todos/list.html", context)
 
@@ -23,11 +23,27 @@ def create_list(request):
 #    if request.method == "POST":
         form = TodoListForm(request.POST)
         if form.is_valid():
-            instance = form.save()
-            return redirect("todo_list_detail", id=instance.id)
+            todolist = form.save()
+            return redirect("todo_list_detail", id=todolist.id)
 
         context = {
             "form": form
         }
 
         return render(request, "todos/create.html", context)
+
+
+def update_list(request, id):
+    todolist = get_object_or_404(TodoList, id=id)
+    if request.method == "POST":
+        form = TodoListForm(request.POST, instance=todolist)
+        if form.is_valid():
+            form.save()
+            return redirect("todo_list_detail", id=todolist.id)
+    else:
+        form = TodoListForm(instance=todolist)
+
+    context = {
+        "form": form
+    }
+    return render(request, "todos/edit.html", context)
