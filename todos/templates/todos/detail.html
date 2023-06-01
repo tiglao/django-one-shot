@@ -8,6 +8,7 @@
         <div>
             <h1>{{ list.name }}</h1>
             <p><a href="{% url 'todo_list_edit' list.id %}">Edit</a></p>
+            <p><a href="{% url 'todo_list_delete' list.id %}">Delete</a></p>
             <h2>Tasks</h2>
             <table>
                 <thead>
