@@ -71,18 +71,32 @@ def create_item(request):
 
 
 def update_item(request, id):
-    todolist = get_object_or_404(TodoList, id=id)
     todoitem = get_object_or_404(TodoItem, id=id)
     if request.method == "POST":
         form = TodoItemForm(request.POST, instance=todoitem)
         if form.is_valid():
             form.save()
-            return redirect("todo_list_detail", id=todolist.id)
+            return redirect("todo_list_detail", id=todoitem.id)
     else:
         form = TodoItemForm(instance=todoitem)
 
     context = {
         "form": form
     }
+    return render(request, "todos/edit.html", context)
 
-    return render(request, "todos/edit_task.html", context)
+
+def update_list(request, id):
+    todolist = get_object_or_404(TodoList, id=id)
+    if request.method == "POST":
+        form = TodoListForm(request.POST, instance=todolist)
+        if form.is_valid():
+            form.save()
+            return redirect("todo_list_detail", id=todolist.id)
+    else:
+        form = TodoListForm(instance=todolist)
+
+    context = {
+        "form": form
+    }
+    return render(request, "todos/edit.html", context)

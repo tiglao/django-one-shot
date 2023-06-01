@@ -20,5 +20,5 @@ class TodoItemForm(ModelForm):
 			"task",
 			"due_date",
 			"is_completed",
-			"list"
+			"list",
 		)
